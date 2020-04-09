@@ -1,4 +1,4 @@
-//a single string,and treating a file as an Arraylist.
+//a single string,and treating a file as an Arraylist
 package P18;
 import java.io.BufferedReader;
 import java.io.File;
