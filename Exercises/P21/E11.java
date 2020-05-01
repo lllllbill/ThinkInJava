@@ -7,26 +7,28 @@ import java.util.concurrent.Executors;
 
 public class E11 implements Runnable{
 	private String[] music = "我和你吻别，在无人的街道,一起呼叫，没有烦恼，烦恼什么烦恼~".split("");
-	private volatile int data2;
+	private  volatile int data2;
 	
 	public void unstabitilyOut(){
-		System.out.print(music[data2]);
-		Thread.yield();
-		++data2;
+		while(data2<music.length){
+			System.out.print(music[data2]);
+			Thread.yield();
+			++data2;
+		}
 	}
 	
 	public synchronized void synchronizedOut(){
-		System.out.print(music[data2]);
-		Thread.yield();
-		++data2;
+		while(data2<music.length){
+			System.out.print(music[data2]);
+			Thread.yield();
+			++data2;
+		}
 	}
 	
 	@Override
 	public void run() {
-		while(data2<music.length){
-			unstabitilyOut();
-			//synchronizedOut();
-		}
+		unstabitilyOut();
+		//synchronizedOut();
 	}
 	
 	
