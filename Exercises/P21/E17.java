@@ -15,7 +15,7 @@ public class E17 {
 		ExecutorService exec = Executors.newCachedThreadPool();
 		int num = 10;
 		for(int i= 0 ;i<num;i++){
-			exec.execute(new Transducer(count,i));
+			exec.submit(new Transducer(count,i));
 		}
 		TimeUnit.SECONDS.sleep(3);
 		Transducer.setCancle();
@@ -28,12 +28,12 @@ public class E17 {
 class Count{
 	private  int count = 0;
 	private Random random = new Random(47);
-	public synchronized void add(){
+	public synchronized int add(){
 		int temp = count;
 		if(random.nextBoolean()){
 			Thread.yield();
 		}
-		count = ++temp;
+		return (count = ++temp);
 	}
 	
 	public synchronized int getCount(){
@@ -59,7 +59,6 @@ class Transducer implements Runnable{
 			//会存在一个对象在多个线程中启动
 			synchronized(this){
 				this.count +=1;
-				masterCount.add();
 			}
 			System.out.println(this);
 			try{
@@ -73,6 +72,6 @@ class Transducer implements Runnable{
 	}
 	
 	public String toString(){
-		return "Transducer "+ id +" :num " +count +" masterCount nums:" + masterCount.getCount() ;
+		return "Transducer "+ id +" :num " +count +" masterCount nums:" + masterCount.add() ;
 	}
 }
